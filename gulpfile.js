@@ -86,6 +86,7 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify-es').default;
 const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
+let cssmin = require('gulp-cssmin');
 
 function pages() {
   return src('app/*.html')
@@ -141,7 +142,9 @@ function scripts() {
   return src([
     'node_modules/jquery/dist/jquery.js',
     'node_modules/slick-carousel/slick/slick.js',
-    'app/js/main.js'
+    'node_modules/mixitup/dist/mixitup.js',
+    'node_modules/rateyo/src/jquery.rateyo.js',
+    'app/js/main.js',
   ])
     .pipe(concat('main.min.js'))
     .pipe(uglify())
@@ -150,6 +153,16 @@ function scripts() {
 }
 
 function styles() {
+  return src(
+    'node_modules/rateyo/src/jquery.rateyo.css',
+  )
+    .pipe(concat('libs.min.css'))
+    .pipe(cssmin())
+    .pipe(dest('app/css'))
+    .pipe(browserSync.stream())
+}
+
+function sass() {
   return src(
     'app/scss/style.scss',
   )
@@ -166,14 +179,14 @@ function watching() {
       baseDir: "app/"
     }
   });
-  watch(['app/scss/*.scss'], styles)
+  watch(['app/scss/*.scss'], sass)
   watch(['app/js/main.js'], scripts)
   watch(['app/*.html']).on('change', browserSync.reload)
 }
 
-exports.styles = styles;
+exports.sass = sass;
 exports.pages = pages;
 exports.scripts = scripts;
 exports.watching = watching;
 
-exports.default = parallel(styles, scripts, pages, watching)
+exports.default = parallel(styles, scripts, sass, pages, watching)

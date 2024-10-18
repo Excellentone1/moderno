@@ -1,6 +1,8 @@
 $(function (){
 
 
+
+
   $(".rate-star").rateYo({
     rating: 5,
     readOnly: true,

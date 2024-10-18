@@ -1,5 +1,6 @@
 html {
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 *,
@@ -28,6 +29,10 @@ body {
   line-height: 24px;
   color: $text;
   margin: 0;
+  background-color: #fff;
+  overflow-x: hidden;
+
+  position: relative;
 }
 
 .container{
@@ -61,4 +66,17 @@ body {
 .rate-star{
   display: inline-block;
   margin-right: 13px;
+}
+
+.angle-right{
+  position: relative;
+  padding-left: 15px;
+  &::before{
+    content: "\f105";
+    font-family: 'icomoon';
+    position: absolute;
+    left: 0;
+    color: $green;
+    font-size: 14px;
+  }
 }
